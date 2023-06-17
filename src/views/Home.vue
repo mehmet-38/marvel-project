@@ -5,7 +5,7 @@
         <v-col v-for="item in comics" :key="item">
           <v-card class="mx-auto" width="344" height="700px">
             <router-link
-              to=""
+              :to="`/comics/${item.id}`"
               style="text-decoration: none !important; color: #000"
             >
               <v-img
@@ -22,11 +22,19 @@
                 {{ item.title }}
               </v-card-title>
             </router-link>
-
-            <v-row style="margin-left: 10px">
-              <v-col cols="6" class="font-weight-bold">Role</v-col>
-              <v-col cols="6" class="font-weight-bold">Name</v-col>
-            </v-row>
+            <div v-if="item.description != null && item.description != ''">
+              <v-card-subtitle>Description </v-card-subtitle>
+              <v-card-text>
+                <div>{{ item.description.substring(0, 300) }}...</div>
+              </v-card-text>
+            </div>
+            <div v-if="item.creators.items.length != 0">
+              <v-card-subtitle>Creators </v-card-subtitle>
+              <v-row style="margin-left: 10px">
+                <v-col cols="6" class="font-weight-bold">Role</v-col>
+                <v-col cols="6" class="font-weight-bold">Name</v-col>
+              </v-row>
+            </div>
             <v-row
               v-for="creat in item.creators.items"
               style="margin-left: 10px"
@@ -42,13 +50,6 @@
                 </div>
               </v-col>
             </v-row>
-
-            <v-card-subtitle> </v-card-subtitle>
-            <v-card-text>
-              <div>
-                {{ item.description }}
-              </div>
-            </v-card-text>
           </v-card>
         </v-col>
       </v-row>

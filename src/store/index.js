@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import comics from "./modules/comics";
+import comicDetails from "./modules/comicDetails";
 
 export default createStore({
   state: {},
@@ -8,5 +9,6 @@ export default createStore({
   actions: {},
   modules: {
     comics,
+    comicDetails,
   },
 });
