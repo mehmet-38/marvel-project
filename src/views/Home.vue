@@ -1,5 +1,6 @@
 <template lang="">
   <div>
+    <Navbar />
     <v-container>
       <v-row>
         <v-col v-for="item in comics" :key="item">
@@ -58,8 +59,10 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import Navbar from "../components/Navbar.vue";
 
 export default {
+  components: { Navbar },
   computed: {
     ...mapState("comics", ["comics"]),
   },
