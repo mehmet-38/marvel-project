@@ -1,9 +1,14 @@
 <template>
   <div>
     <div class="navbar">
-      <img src="../assets/img/marvel-logo.jpg" alt="" class="logo" />
-
-      <v-badge content="2" color="error" class="badge">
+      <router-link to="/">
+        <img src="../assets/img/marvel-logo.jpg" alt="" class="logo" />
+      </router-link>
+      <v-badge
+        :content="favoriteItem == 0 ? 0 : favoriteItem"
+        color="error"
+        class="badge"
+      >
         <font-awesome-icon :icon="['fass', 'heart']" class="heart" />
       </v-badge>
     </div>
@@ -11,7 +16,18 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      favoriteItem: localStorage.getItem("favorite"),
+    };
+  },
+  props: ["favoriteItem"],
+  created() {
+    //this.favorite = localStorage.getItem("favorite");
+    this.favoriteItem = localStorage.getItem("favorite");
+  },
+};
 </script>
 <style>
 .navbar {
@@ -35,6 +51,7 @@ export default {};
 .logo {
   margin-left: 15px;
   margin-top: 15px;
+  width: 150px;
 }
 .heart {
   font-size: 30px;

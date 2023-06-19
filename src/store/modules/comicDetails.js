@@ -2,12 +2,12 @@ import appAxios from "../../utils/appAxios";
 
 export default {
   state: {
-    comicsDetails: null,
+    comic: null,
   },
   getters: {},
   mutations: {
-    comic(state, item) {
-      state.comicsDetails = item;
+    comicDetails(state, item) {
+      state.comic = item;
     },
   },
 
@@ -18,8 +18,8 @@ export default {
         url: `/v1/public/comics/${comicId}?ts=1&apikey=c4cfd6f38705de35fd226ed571a5ebdd&hash=9eeacc15a3ba4d5c0b6b6a2e96566917`,
         method: "GET",
       }).then((response) => {
-        context.commit("comic", response.data.data);
-        console.log(response.data.data);
+        context.commit("comicDetails", response.data.data.results);
+        //console.log(response.data.data.results);
       });
     },
   },

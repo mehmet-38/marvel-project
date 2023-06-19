@@ -19,7 +19,7 @@ export default {
         method: "GET",
       }).then((response) => {
         context.commit("comics", response.data.data.results);
-        console.log(response.data.data.results);
+        //console.log(response.data.data.results);
       });
     },
   },

@@ -1,10 +1,15 @@
 <template lang="">
   <div>
-    <Navbar />
+    <Navbar :favoriteItem="favoriteItem" />
     <v-container>
       <v-row>
         <v-col v-for="item in comics" :key="item">
           <v-card class="mx-auto" width="344" height="700px">
+            <a @click="addFavorite">
+              <font-awesome-icon
+                :icon="['fass', 'heart']"
+                class="heart heart-icon"
+            /></a>
             <router-link
               :to="`/comics/${item.id}`"
               style="text-decoration: none !important; color: #000"
@@ -13,7 +18,8 @@
                 :src="`${item.thumbnail.path}.${item.thumbnail.extension}`"
                 height="300px"
                 cover
-              ></v-img>
+              >
+              </v-img>
 
               <v-card-title
                 class="text-center"
@@ -63,16 +69,39 @@ import Navbar from "../components/Navbar.vue";
 
 export default {
   components: { Navbar },
+  data() {
+    return {
+      favoriteItem: 0,
+    };
+  },
   computed: {
     ...mapState("comics", ["comics"]),
   },
   mounted() {
     this.$store.dispatch("comics/getComics");
+
+    this.favoriteItem = localStorage.getItem("favorite");
+  },
+  methods: {
+    addFavorite() {
+      this.favoriteItem++;
+      localStorage.setItem("favorite", this.favoriteItem);
+    },
   },
 };
 </script>
 <style>
 body {
   background-color: #302d2ded !important;
+}
+.heart-icon {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  cursor: pointer;
+  transition: all 0.3s linear;
+}
+.heart-icon:hover {
+  transform: scale(1.1);
 }
 </style>
