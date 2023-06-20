@@ -5,7 +5,11 @@
         <img src="../assets/img/marvel-logo.jpg" alt="" class="logo" />
       </router-link>
       <v-badge
-        :content="favoriteItem == 0 ? 0 : favoriteItem"
+        :content="
+          favoriteItem.length == 0 || favoriteItem[0].length == 0
+            ? 0
+            : favoriteItem[0].length
+        "
         color="error"
         class="badge"
       >
@@ -19,13 +23,19 @@
 export default {
   data() {
     return {
-      favoriteItem: localStorage.getItem("favorite"),
+      favoriteItem: [],
     };
   },
-  props: ["favoriteItem"],
+
   created() {
-    //this.favorite = localStorage.getItem("favorite");
-    this.favoriteItem = localStorage.getItem("favorite");
+    //console.log(this.favoriteItem);
+
+    if (localStorage.getItem("favorite")) {
+      const value = JSON.parse(localStorage.getItem("favorite"));
+      if (value) {
+        this.favoriteItem.push(JSON.parse(localStorage.getItem("favorite")));
+      }
+    }
   },
 };
 </script>

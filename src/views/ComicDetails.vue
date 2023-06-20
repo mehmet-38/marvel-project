@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar :favoriteItem="favoriteItem" />
+    <Navbar />
     <v-card
       class="mx-auto mt-15"
       max-width="1000"
@@ -14,7 +14,9 @@
         :src="`${item.thumbnail.path}.${item.thumbnail.extension}`"
         cover
       >
-        <v-card-title>{{ item.title }}</v-card-title>
+        <v-card-title style="background-color: black">{{
+          item.title
+        }}</v-card-title>
       </v-img>
       <h3 class="black" style="margin-left: 15px; margin-bottom: -15px">
         Series
@@ -30,16 +32,16 @@
           <h3>Creators</h3>
 
           <v-row style="margin-left: 10px">
-            <v-col cols="3" class="font-weight-bold">Role</v-col>
-            <v-col cols="3" class="font-weight-bold">Name</v-col>
+            <v-col cols="5" class="font-weight-bold">Role</v-col>
+            <v-col cols="5" class="font-weight-bold">Name</v-col>
           </v-row>
           <v-row v-for="creat in item.creators.items" style="margin-left: 10px">
-            <v-col cols="3">
+            <v-col cols="5">
               <div class="text-subtitle-1">
                 {{ creat.role }}
               </div>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="5">
               <div class="text-subtitle-1">
                 {{ creat.name }}
               </div>
@@ -52,16 +54,16 @@
           <h3>Stories</h3>
 
           <v-row style="margin-left: 10px">
-            <v-col cols="3" class="font-weight-bold">Name</v-col>
-            <v-col cols="3" class="font-weight-bold">Type</v-col>
+            <v-col cols="5" class="font-weight-bold">Name</v-col>
+            <v-col cols="5" class="font-weight-bold">Type</v-col>
           </v-row>
           <v-row v-for="story in item.stories.items" style="margin-left: 10px">
-            <v-col cols="3">
+            <v-col cols="5">
               <div class="text-subtitle-1">
                 {{ story.name }}
               </div>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="5">
               <div class="text-subtitle-1">
                 {{ story.type }}
               </div>
@@ -77,15 +79,14 @@ import { mapState } from "vuex";
 import Navbar from "../components/Navbar.vue";
 export default {
   components: { Navbar },
-
+  data() {
+    return {};
+  },
   computed: {
     ...mapState("comicDetails", ["comic"]),
   },
-  mounted() {
+  created() {
     this.$store.dispatch("comicDetails/getComicDetails", this.$route.params.id);
-    this.favoriteItem = localStorage.getItem("favorite");
-
-    //console.log(this.comic);
   },
 };
 </script>

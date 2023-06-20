@@ -1,11 +1,11 @@
 <template lang="">
   <div>
-    <Navbar :favoriteItem="favoriteItem" />
+    <Navbar />
     <v-container>
       <v-row>
         <v-col v-for="item in comics" :key="item">
-          <v-card class="mx-auto" width="344" height="700px">
-            <a @click="addFavorite">
+          <v-card class="mx-auto card" width="344" height="700px">
+            <a @click="addFavorite(item.id)">
               <font-awesome-icon
                 :icon="['fass', 'heart']"
                 class="heart heart-icon"
@@ -34,7 +34,9 @@
               <v-card-text>
                 <div>{{ item.description.substring(0, 300) }}...</div>
               </v-card-text>
+              <hr />
             </div>
+
             <div v-if="item.creators.items.length != 0">
               <v-card-subtitle>Creators </v-card-subtitle>
               <v-row style="margin-left: 10px">
@@ -71,21 +73,29 @@ export default {
   components: { Navbar },
   data() {
     return {
-      favoriteItem: 0,
+      favoriteItem: [],
     };
   },
   computed: {
     ...mapState("comics", ["comics"]),
   },
-  mounted() {
+  created() {
     this.$store.dispatch("comics/getComics");
-
-    this.favoriteItem = localStorage.getItem("favorite");
   },
   methods: {
-    addFavorite() {
-      this.favoriteItem++;
-      localStorage.setItem("favorite", this.favoriteItem);
+    addFavorite(id) {
+      this.favoriteItem.push({
+        id: id,
+      });
+    },
+  },
+  // watch favorite item and set
+  watch: {
+    favoriteItem: {
+      handler(newValue, oldValue) {
+        localStorage.setItem("favorite", JSON.stringify(newValue));
+      },
+      deep: true,
     },
   },
 };
@@ -94,12 +104,16 @@ export default {
 body {
   background-color: #302d2ded !important;
 }
+.card {
+  box-shadow: 0px 0px 5px 8px rgba(0, 0, 0, 0.37) !important;
+}
 .heart-icon {
   position: absolute;
   right: 0;
   z-index: 1;
   cursor: pointer;
   transition: all 0.3s linear;
+  margin: 5px;
 }
 .heart-icon:hover {
   transform: scale(1.1);
